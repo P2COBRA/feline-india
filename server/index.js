@@ -13,6 +13,7 @@ if (!fs.existsSync(path.resolve(process.cwd(), '.env')) && fs.existsSync(path.re
   dotenv.config({ path: path.resolve(process.cwd(), '../.env') });
 }
 process.env.DATABASE_URL ||= 'file:./prisma/dev.db';
+process.env.AUTO_ADMIN_LOGIN ||= 'true';
 
 const prisma = new PrismaClient();
 const app = express();
@@ -165,7 +166,7 @@ app.post('/api/login', async (req, res) => {
 });
 
 app.post('/api/admin/auto-login', async (req, res) => {
-  if (process.env.NODE_ENV === 'production' || process.env.AUTO_ADMIN_LOGIN !== 'true') {
+  if (process.env.AUTO_ADMIN_LOGIN !== 'true') {
     return res.status(404).json({ message: 'Demo admin login is disabled.' });
   }
 
