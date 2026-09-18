@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <rect width="600" height="600" rx="40" fill="#ecfdf5"/>
+  <rect x="170" y="120" width="260" height="340" rx="34" fill="#ffffff" stroke="#d1fae5" stroke-width="3"/>
+  <circle cx="300" cy="220" r="62" fill="#86efac"/>
+  <path d="M280 188h40v28h-40zm-18 42h76v22h-76zm0 32h76v22h-76z" fill="#15803d"/>
+  <text x="300" y="360" text-anchor="middle" font-size="36" fill="#14532d" font-family="Segoe UI, Arial, sans-serif" font-weight="800">Vitamin C</text>
+</svg>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <rect width="600" height="600" rx="40" fill="#f8fafc"/>
+  <rect x="210" y="120" width="180" height="300" rx="42" fill="#dbeafe"/>
+  <rect x="245" y="80" width="110" height="70" rx="20" fill="#93c5fd"/>
+  <rect x="235" y="220" width="130" height="110" rx="18" fill="#60a5fa"/>
+  <text x="300" y="280" text-anchor="middle" fill="white" font-size="28" font-family="Segoe UI, Arial, sans-serif" font-weight="700">Bottle</text>
+</svg>

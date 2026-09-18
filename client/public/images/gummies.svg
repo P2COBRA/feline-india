@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <rect width="600" height="600" rx="40" fill="#f0fdf4"/>
+  <rect x="170" y="120" width="260" height="340" rx="32" fill="#ffffff" stroke="#dcfce7" stroke-width="3"/>
+  <circle cx="250" cy="250" r="38" fill="#86efac"/>
+  <circle cx="350" cy="250" r="38" fill="#4ade80"/>
+  <circle cx="300" cy="320" r="44" fill="#22c55e"/>
+  <text x="300" y="420" text-anchor="middle" font-size="28" fill="#14532d" font-family="Segoe UI, Arial, sans-serif" font-weight="700">Gummies</text>
+</svg>

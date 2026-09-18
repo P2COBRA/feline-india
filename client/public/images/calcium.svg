@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <rect width="600" height="600" rx="40" fill="#fdf2f8"/>
+  <rect x="170" y="120" width="260" height="340" rx="32" fill="#ffffff" stroke="#fbcfe8" stroke-width="3"/>
+  <rect x="220" y="150" width="160" height="90" rx="18" fill="#f9a8d4"/>
+  <text x="300" y="205" text-anchor="middle" fill="white" font-size="28" font-family="Segoe UI, Arial, sans-serif" font-weight="700">Calcium</text>
+  <g fill="#ec4899">
+    <rect x="230" y="280" width="34" height="120" rx="12"/>
+    <rect x="281" y="280" width="34" height="120" rx="12"/>
+    <rect x="332" y="280" width="34" height="120" rx="12"/>
+  </g>
+</svg>

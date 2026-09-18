@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <rect width="600" height="600" rx="40" fill="#f8fafc"/>
+  <rect x="152" y="118" width="296" height="364" rx="28" fill="#ffffff" stroke="#dbeafe" stroke-width="3"/>
+  <rect x="186" y="156" width="228" height="80" rx="16" fill="#93c5fd"/>
+  <text x="300" y="210" text-anchor="middle" fill="white" font-size="26" font-family="Segoe UI, Arial, sans-serif" font-weight="700">Health Plus</text>
+  <g fill="#60a5fa">
+    <rect x="212" y="286" width="28" height="120" rx="12"/>
+    <rect x="260" y="286" width="28" height="120" rx="12"/>
+    <rect x="308" y="286" width="28" height="120" rx="12"/>
+    <rect x="356" y="286" width="28" height="120" rx="12"/>
+  </g>
+</svg>

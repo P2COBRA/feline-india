@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <rect width="600" height="600" rx="40" fill="#f8fafc"/>
+  <rect x="180" y="120" width="240" height="360" rx="28" fill="#e2e8f0"/>
+  <rect x="210" y="170" width="180" height="70" rx="16" fill="#cbd5e1"/>
+  <text x="300" y="215" text-anchor="middle" fill="#0f172a" font-size="26" font-family="Segoe UI, Arial, sans-serif" font-weight="700">FELINE</text>
+  <g fill="#64748b">
+    <rect x="220" y="280" width="160" height="18" rx="9"/>
+    <rect x="220" y="320" width="160" height="18" rx="9"/>
+    <rect x="220" y="360" width="120" height="18" rx="9"/>
+  </g>
+</svg>

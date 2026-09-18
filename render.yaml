@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: feline-india
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm --prefix client install && npm --prefix server install && npm --prefix client run build && npm --prefix server run seed
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        value: file:./prisma/dev.db
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: AUTO_ADMIN_LOGIN
+        value: "false"

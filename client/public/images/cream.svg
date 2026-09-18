@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <rect width="600" height="600" rx="40" fill="#fff7ed"/>
+  <rect x="180" y="120" width="240" height="340" rx="32" fill="#ffffff" stroke="#fed7aa" stroke-width="3"/>
+  <rect x="230" y="180" width="140" height="160" rx="28" fill="#fdba74" opacity="0.2"/>
+  <path d="M270 180c0-20 15-35 35-35s35 15 35 35v26h-70v-26zm-20 68h120v124H250V248z" fill="#f97316"/>
+  <text x="300" y="390" text-anchor="middle" font-size="28" fill="#9a4d00" font-family="Segoe UI, Arial, sans-serif" font-weight="700">Cream</text>
+</svg>

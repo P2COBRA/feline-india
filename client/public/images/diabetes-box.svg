@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <rect width="600" height="600" rx="40" fill="#ecfeff"/>
+  <rect x="170" y="120" width="260" height="340" rx="30" fill="#ffffff" stroke="#cffafe" stroke-width="3"/>
+  <text x="300" y="210" text-anchor="middle" font-size="28" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-weight="700">Diabetes</text>
+  <path d="M240 260c24-32 47-48 70-48 32 0 60 28 60 63 0 39-30 72-70 72s-70-32-70-72c0-19 14-38 42-53z" fill="#22d3ee" opacity="0.22"/>
+  <path d="M250 270h100v48H250zM250 330h60v18h-60z" fill="#0ea5e9"/>
+</svg>
