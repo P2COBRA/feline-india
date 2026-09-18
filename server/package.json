@@ -4,9 +4,9 @@
   "type": "module",
   "scripts": {
     "dev": "npx prisma db push --schema=./prisma/schema.prisma && node --watch index.js",
-    "start": "node index.js",
+    "start": "npx prisma db push --schema=./prisma/schema.prisma && node seed.js && node index.js",
     "seed": "npx prisma db push --schema=./prisma/schema.prisma && node seed.js",
-    "postinstall": "npx prisma generate --schema=./prisma/schema.prisma && npx prisma db push --schema=./prisma/schema.prisma"
+    "postinstall": "npx prisma generate --schema=./prisma/schema.prisma"
   },
   "dependencies": {
     "@prisma/client": "^5.20.1",

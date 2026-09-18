@@ -12,6 +12,7 @@ dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 if (!fs.existsSync(path.resolve(process.cwd(), '.env')) && fs.existsSync(path.resolve(process.cwd(), '../.env'))) {
   dotenv.config({ path: path.resolve(process.cwd(), '../.env') });
 }
+process.env.DATABASE_URL ||= 'file:./prisma/dev.db';
 
 const prisma = new PrismaClient();
 const app = express();
