@@ -354,6 +354,11 @@ app.post('/api/admin/banners', ensureAuth, ensureAdmin, async (req, res) => {
   res.status(201).json(banner);
 });
 
+app.put('/api/admin/banners/:id', ensureAuth, ensureAdmin, async (req, res) => {
+  const banner = await prisma.banner.update({ where: { id: Number(req.params.id) }, data: req.body });
+  res.json(banner);
+});
+
 app.delete('/api/admin/banners/:id', ensureAuth, ensureAdmin, async (req, res) => {
   await prisma.banner.delete({ where: { id: Number(req.params.id) } });
   res.json({ success: true });
@@ -373,6 +378,19 @@ app.post('/api/admin/offers', ensureAuth, ensureAdmin, async (req, res) => {
   };
   const offer = await prisma.coupon.create({ data });
   res.status(201).json(offer);
+});
+
+app.put('/api/admin/offers/:id', ensureAuth, ensureAdmin, async (req, res) => {
+  const offer = await prisma.coupon.update({
+    where: { id: Number(req.params.id) },
+    data: {
+      ...req.body,
+      value: Number(req.body.value),
+      minOrderValue: Number(req.body.minOrderValue || 0),
+      expiryDate: new Date(req.body.expiryDate)
+    }
+  });
+  res.json(offer);
 });
 
 app.delete('/api/admin/offers/:id', ensureAuth, ensureAdmin, async (req, res) => {

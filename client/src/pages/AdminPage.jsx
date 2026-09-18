@@ -19,6 +19,9 @@ export default function AdminPage({ user }) {
   const [brandLogo, setBrandLogo] = useState('');
   const [brandName, setBrandName] = useState('');
   const [brandTagline, setBrandTagline] = useState('');
+  const [categoryDraft, setCategoryDraft] = useState({ id: null, name: '', description: '', imageUrl: '' });
+  const [bannerDraft, setBannerDraft] = useState({ id: null, title: '', imageUrl: '', link: '/products', active: true });
+  const [offerDraft, setOfferDraft] = useState({ id: null, code: '', type: 'PERCENTAGE', value: 10, minOrderValue: 0, expiryDate: '' });
 
   const loadData = async () => {
     const response = await Promise.all([
@@ -142,6 +145,38 @@ export default function AdminPage({ user }) {
     loadData();
   };
 
+  const saveRecord = async (resource, draft, setDraft) => {
+    const { id } = draft;
+    const payload = resource === 'categories'
+      ? { name: draft.name, description: draft.description || '', imageUrl: draft.imageUrl || '' }
+      : resource === 'banners'
+        ? { title: draft.title, imageUrl: draft.imageUrl, link: draft.link || '/products', active: draft.active !== false }
+        : { code: draft.code, type: draft.type, value: Number(draft.value), minOrderValue: Number(draft.minOrderValue || 0), expiryDate: draft.expiryDate, active: draft.active !== false };
+    const response = await fetch(`/api/admin/${resource}${id ? `/${id}` : ''}`, {
+      method: id ? 'PUT' : 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify(payload)
+    });
+    if (!response.ok) return window.alert(`Could not save ${resource}.`);
+    setDraft(resource === 'categories' ? { id: null, name: '', description: '', imageUrl: '' } : resource === 'banners' ? { id: null, title: '', imageUrl: '', link: '/products', active: true } : { id: null, code: '', type: 'PERCENTAGE', value: 10, minOrderValue: 0, expiryDate: '' });
+    loadData();
+  };
+
+  const deleteRecord = async (resource, id) => {
+    if (!window.confirm(`Delete this ${resource.slice(0, -1)}?`)) return;
+    const response = await fetch(`/api/admin/${resource}/${id}`, { method: 'DELETE', credentials: 'include' });
+    if (!response.ok) window.alert(`Could not delete ${resource}. It may still be in use.`);
+    loadData();
+  };
+
+  const updateOrderStatus = async (order, status) => {
+    await fetch(`/api/admin/orders/${order.id}`, {
+      method: 'PUT', headers: { 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify({ status })
+    });
+    loadData();
+  };
+
   return (
     <div className="space-y-6 pb-12">
       <div className="card p-6">
@@ -186,8 +221,49 @@ export default function AdminPage({ user }) {
         <div className="space-y-3">{products.map((product) => <div key={product.id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 p-3"><div><span className="font-semibold">{product.name}</span><span className="ml-3 text-sm text-slate-500">Stock: {product.stock}</span></div><div className="flex items-center gap-2"><span className="badge bg-emerald-100 text-emerald-700">₹{product.price}</span><button className="secondary-btn" onClick={() => startEdit(product)}>Edit</button><button className="secondary-btn text-rose-600" onClick={() => deleteProduct(product)}>Delete</button></div></div>)}</div>
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-2"><div className="card p-5"><h2 className="mb-4 text-xl font-bold">Categories</h2><div className="space-y-2">{categories.map((category) => <div key={category.id} className="rounded-xl bg-slate-50 p-3">{category.name}</div>)}</div></div><div className="card p-5"><h2 className="mb-4 text-xl font-bold">Banners</h2><div className="space-y-2">{banners.map((banner) => <div key={banner.id} className="rounded-xl bg-slate-50 p-3">{banner.title}</div>)}</div></div></div>
-      <div className="grid gap-6 xl:grid-cols-2"><div className="card p-5"><h2 className="mb-4 text-xl font-bold">Coupons</h2><div className="space-y-2">{offers.map((offer) => <div key={offer.id} className="rounded-xl bg-slate-50 p-3">{offer.code} - {offer.value}%</div>)}</div></div><div className="card p-5"><h2 className="mb-4 text-xl font-bold">Customer Messages</h2><div className="space-y-2">{messages.map((message) => <div key={message.id} className="rounded-xl bg-slate-50 p-3">{message.subject}</div>)}</div></div></div>
+      <div className="grid gap-6 xl:grid-cols-2">
+        <div className="card p-5">
+          <h2 className="mb-4 text-xl font-bold">Categories</h2>
+          <form onSubmit={(event) => { event.preventDefault(); saveRecord('categories', categoryDraft, setCategoryDraft); }} className="mb-4 grid gap-2">
+            <input className="input" placeholder="Category name" value={categoryDraft.name} onChange={(event) => setCategoryDraft({ ...categoryDraft, name: event.target.value })} required />
+            <input className="input" placeholder="Description" value={categoryDraft.description} onChange={(event) => setCategoryDraft({ ...categoryDraft, description: event.target.value })} />
+            <input className="input" placeholder="Image URL" value={categoryDraft.imageUrl} onChange={(event) => setCategoryDraft({ ...categoryDraft, imageUrl: event.target.value })} />
+            <button className="primary-btn" type="submit">{categoryDraft.id ? 'Save category' : 'Add category'}</button>
+          </form>
+          <div className="space-y-2">{categories.map((category) => <div key={category.id} className="flex items-center justify-between gap-2 rounded-xl bg-slate-50 p-3"><span>{category.name}</span><span className="flex gap-2"><button className="secondary-btn" onClick={() => setCategoryDraft(category)}>Edit</button><button className="secondary-btn text-rose-600" onClick={() => deleteRecord('categories', category.id)}>Delete</button></span></div>)}</div>
+        </div>
+        <div className="card p-5">
+          <h2 className="mb-4 text-xl font-bold">Banners</h2>
+          <form onSubmit={(event) => { event.preventDefault(); saveRecord('banners', bannerDraft, setBannerDraft); }} className="mb-4 grid gap-2">
+            <input className="input" placeholder="Banner title" value={bannerDraft.title} onChange={(event) => setBannerDraft({ ...bannerDraft, title: event.target.value })} required />
+            <input className="input" placeholder="Image URL" value={bannerDraft.imageUrl} onChange={(event) => setBannerDraft({ ...bannerDraft, imageUrl: event.target.value })} required />
+            <input className="input" placeholder="Link" value={bannerDraft.link} onChange={(event) => setBannerDraft({ ...bannerDraft, link: event.target.value })} />
+            <button className="primary-btn" type="submit">{bannerDraft.id ? 'Save banner' : 'Add banner'}</button>
+          </form>
+          <div className="space-y-2">{banners.map((banner) => <div key={banner.id} className="flex items-center justify-between gap-2 rounded-xl bg-slate-50 p-3"><span>{banner.title}</span><span className="flex gap-2"><button className="secondary-btn" onClick={() => setBannerDraft(banner)}>Edit</button><button className="secondary-btn text-rose-600" onClick={() => deleteRecord('banners', banner.id)}>Delete</button></span></div>)}</div>
+        </div>
+      </div>
+
+      <div className="grid gap-6 xl:grid-cols-2">
+        <div className="card p-5">
+          <h2 className="mb-4 text-xl font-bold">Coupons</h2>
+          <form onSubmit={(event) => { event.preventDefault(); saveRecord('offers', offerDraft, setOfferDraft); }} className="mb-4 grid gap-2 md:grid-cols-2">
+            <input className="input" placeholder="Coupon code" value={offerDraft.code} onChange={(event) => setOfferDraft({ ...offerDraft, code: event.target.value })} required />
+            <select className="input" value={offerDraft.type} onChange={(event) => setOfferDraft({ ...offerDraft, type: event.target.value })}><option value="PERCENTAGE">Percentage</option><option value="FLAT">Flat amount</option></select>
+            <input className="input" type="number" placeholder="Value" value={offerDraft.value} onChange={(event) => setOfferDraft({ ...offerDraft, value: event.target.value })} required />
+            <input className="input" type="number" placeholder="Minimum order" value={offerDraft.minOrderValue} onChange={(event) => setOfferDraft({ ...offerDraft, minOrderValue: event.target.value })} />
+            <input className="input" type="date" value={offerDraft.expiryDate?.slice(0, 10) || ''} onChange={(event) => setOfferDraft({ ...offerDraft, expiryDate: event.target.value })} required />
+            <button className="primary-btn" type="submit">{offerDraft.id ? 'Save coupon' : 'Add coupon'}</button>
+          </form>
+          <div className="space-y-2">{offers.map((offer) => <div key={offer.id} className="flex items-center justify-between gap-2 rounded-xl bg-slate-50 p-3"><span>{offer.code} - {offer.value}{offer.type === 'PERCENTAGE' ? '%' : '₹'}</span><span className="flex gap-2"><button className="secondary-btn" onClick={() => setOfferDraft(offer)}>Edit</button><button className="secondary-btn text-rose-600" onClick={() => deleteRecord('offers', offer.id)}>Delete</button></span></div>)}</div>
+        </div>
+        <div className="card p-5">
+          <h2 className="mb-4 text-xl font-bold">Orders</h2>
+          <div className="space-y-2">{orders.length ? orders.map((order) => <div key={order.id} className="flex items-center justify-between gap-2 rounded-xl bg-slate-50 p-3"><span>Order #{order.id} - ₹{order.total}</span><select className="input max-w-40" value={order.status} onChange={(event) => updateOrderStatus(order, event.target.value)}><option>Placed</option><option>Processing</option><option>Shipped</option><option>Delivered</option><option>Cancelled</option></select></div>) : <p className="text-slate-500">No orders yet.</p>}</div>
+        </div>
+      </div>
+
+      <div className="card p-5"><h2 className="mb-4 text-xl font-bold">Customer Messages</h2><div className="space-y-2">{messages.length ? messages.map((message) => <div key={message.id} className="rounded-xl bg-slate-50 p-3"><div className="font-semibold">{message.subject}</div><div className="text-sm text-slate-500">{message.name} · {message.email}</div><p className="mt-1 text-sm">{message.message}</p></div>) : <p className="text-slate-500">No messages yet.</p>}</div></div>
     </div>
   );
 }
