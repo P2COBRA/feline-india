@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "npx prisma db push --schema=./prisma/schema.prisma && node --watch index.js",
     "start": "node index.js",
-    "seed": "node seed.js",
+    "seed": "npx prisma db push --schema=./prisma/schema.prisma && node seed.js",
     "postinstall": "npx prisma generate --schema=./prisma/schema.prisma && npx prisma db push --schema=./prisma/schema.prisma"
   },
   "dependencies": {
